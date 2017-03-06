@@ -7,18 +7,18 @@
 	<?php
 
 	class CheckVarMiddleware {
-		function __invoke($foo)
+		function __invoke($var)
 		{
-			if($foo == 2) {
+			if($var == 'foo') {
 				throw new Exception('invoke Exception!');
 			}
 		}
 	}
 
-	class B {
+	class App {
 		public $var;
 
-		function foo($val) {
+		function setVar($val) {
 			$this->var = $val;
 			return $this;
 		}
@@ -37,9 +37,9 @@
 		}
 	}
 
-	$b = new B();
-	echo $b->foo(2)->addMiddleware(new CheckVarMiddleware())->addMiddleware(function (){
-		if($this->var == 3) {
+	$app = new App();
+	echo $app->setVar('demo')->addMiddleware(new CheckVarMiddleware())->addMiddleware(function (){
+		if($this->var == 'bar') {
 			throw new Exception('Closure Exception!');
 		}
 		return $this;
